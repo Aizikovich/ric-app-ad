@@ -33,11 +33,11 @@ sdl = SDLWrapper(use_fake_sdl=True)
 
 logger = Logger(name=__name__)
 
-
 def entry(self):
     """  If ML model is not present in the path, It will trigger training module to train the model.
       Calls predict function every 10 millisecond(for now as we are using simulated data).
     """
+
     connectdb()
     train_model()
     load_model()
@@ -67,7 +67,17 @@ def predict(self):
       Send the UEID, DUID, Degradation type and timestamp for the anomalous samples to Traffic Steering (rmr with the message type as 30003)
       Get the acknowledgement of sent message from the traffic steering.
     """
+
     db.read_data()
+    # check which ue is present at the prediction
+    print(f"In AD predict ")
+    print(f"Predicting for {len(db.data)} samples")
+    try:
+        print(f"head of data: {db.data.head()}")
+    except Exception as e:
+        print(f"[ERROR] {e}")
+        print("not pandas dataframe ", print(type(db.data)))
+    print("")
     val = None
     if db.data is not None:
         if set(md.num).issubset(db.data.columns):
@@ -96,9 +106,12 @@ def predict_anomaly(self, df):
     ......
     val: anomalus sample info(UEID, DUID, TimeStamp, Degradation type)
     """
+    print("In AD predict_anomaly")
+    print(f"Predicting for {len(df)} samples, df type: {type(df)}")
     df['Anomaly'] = md.predict(df)
     df.loc[:, 'Degradation'] = ''
     val = None
+
     if 1 in df.Anomaly.unique():
         df.loc[:, ['Anomaly', 'Degradation']] = cp.cause(df, db, threshold)
         df_a = df.loc[df['Anomaly'] == 1].copy()
@@ -137,6 +150,7 @@ def connectdb(thread=False):
         db = DUMMY()
     else:
         db = DATABASE()
+
     success = False
     while not success:
         success = db.connect()
