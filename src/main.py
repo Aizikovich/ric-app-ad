@@ -70,20 +70,22 @@ def predict(self):
 
     db.read_data()
     # check which ue is present at the prediction
-    print(f"In AD predict ")
-    print(f"Predicting for {len(db.data)} samples")
-    try:
-        print(f"head of data: {db.data.head()}")
-    except Exception as e:
-        print(f"[ERROR] {e}")
-        print("not pandas dataframe ", print(type(db.data)))
-    print("")
+    print(f"1)  In AD predict ")
+    print(f"    Predicting for {len(db.data)} samples")
+    # try:
+    #     # print(f"head of data: {db.data.head()}")
+    # except Exception as e:
+    #     print(f"[ERROR] {e}")
+    #     print("not pandas dataframe ", print(type(db.data)))
+    # print("")
     val = None
     if db.data is not None:
         if set(md.num).issubset(db.data.columns):
             db.data = db.data.dropna(axis=0)
             if len(db.data) > 0:
                 val = predict_anomaly(self, db.data)
+                # added for testing by me
+                logger.info("Anomalous UE: {}".format(val))
         else:
             logger.warning("Parameters does not match with of training data")
     else:
@@ -106,8 +108,8 @@ def predict_anomaly(self, df):
     ......
     val: anomalus sample info(UEID, DUID, TimeStamp, Degradation type)
     """
-    print("In AD predict_anomaly")
-    print(f"Predicting for {len(df)} samples, df type: {type(df)}")
+    print("2)   In AD predict_anomaly")
+    print(f"    sending {len(df)} samples to md.predict")
     df['Anomaly'] = md.predict(df)
     df.loc[:, 'Degradation'] = ''
     val = None
@@ -121,6 +123,9 @@ def predict_anomaly(self, df):
             # rmr send 30003(TS_ANOMALY_UPDATE), should trigger registered callback
             result = json.loads(df_a.loc[:, cols].to_json(orient='records'))
             val = json.dumps(result).encode()
+            logger.info("Anomalous UE: {}".format(val))
+            print(f"4)    Anomalous UE val: {val}, ")
+            print(f"      Anomalous UE result: {result}")
     df.loc[:, 'RRU.PrbUsedDl'] = df['RRU.PrbUsedDl'].astype('float')
     df.index = pd.date_range(start=df.index[0], periods=len(df), freq='1ms')
     db.write_anomaly(df)
