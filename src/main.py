@@ -108,8 +108,6 @@ def predict_anomaly(self, df):
     ......
     val: anomalus sample info(UEID, DUID, TimeStamp, Degradation type)
     """
-    print("2)   In AD predict_anomaly")
-    print(f"    sending {len(df)} samples to md.predict")
     df['Anomaly'] = md.predict(df)
     df.loc[:, 'Degradation'] = ''
     val = None
