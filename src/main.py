@@ -124,8 +124,7 @@ def predict_anomaly(self, df):
             result = json.loads(df_a.loc[:, cols].to_json(orient='records'))
             val = json.dumps(result).encode()
             logger.info("Anomalous UE: {}".format(val))
-            print(f"4)    Anomalous UE val: {val}, ")
-            print(f"      Anomalous UE result: {result}")
+
     df.loc[:, 'RRU.PrbUsedDl'] = df['RRU.PrbUsedDl'].astype('float')
     df.index = pd.date_range(start=df.index[0], periods=len(df), freq='1ms')
     db.write_anomaly(df)
