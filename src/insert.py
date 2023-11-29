@@ -31,8 +31,8 @@ class INSERTDATA(DATABASE):
         super().__init__()
         self.config()
         self.connect()
-#        self.dropdb('RIC-Test')
-#        self.createdb('RIC-Test')
+        self.dropdb('RIC-Test')
+        self.createdb('RIC-Test')
 
     def config(self):
         cfg = ConfigParser()
