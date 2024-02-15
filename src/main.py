@@ -70,8 +70,7 @@ def predict(self):
 
     db.read_data()
     # check which ue is present at the prediction
-    print(f"1)  In AD predict ")
-    print(f"    Predicting for {len(db.data)} samples")
+
     # try:
     #     # print(f"head of data: {db.data.head()}")
     # except Exception as e:
