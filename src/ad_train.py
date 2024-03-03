@@ -53,7 +53,7 @@ class ModelTraining(object):
     # some changes here: reduced sleep time from 120 to 60 and number of samples from 1000 to 700
     def read_train(self):
         self.db.read_data(train=True)
-        while self.db.data is None or len(self.db.data.dropna()) < 700:
+        while self.db.data is None or len(self.db.data) < 700:
             logger.warning(f"Check if InfluxDB instance is up / Not sufficient data for Training")
             time.sleep(60)
             self.db.read_data(train=True)
@@ -66,11 +66,11 @@ class ModelTraining(object):
     def read_test(self):
         """ Read test dataset for model validation"""
         self.db.read_data(valid=True)
-        while self.db.data is None or len(self.db.data.dropna()) < 300:
+        while self.db.data is None or len(self.db.data) < 300:
             logger.warning("Check if InfluxDB instance is up? or Not sufficient data for Validation in last 10 minutes")
             time.sleep(60)
             self.db.read_data(valid=True)
-        self.test_data = self.db.data.dropna()
+        self.test_data = self.db.data
         logger.debug("Validation on {} Samples".format(self.test_data.shape[0]))
 
     def isoforest(self, outliers_fraction=0.05, random_state=4):
