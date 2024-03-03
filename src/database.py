@@ -94,14 +94,14 @@ class DATABASE(object):
             query += ' where time>now()-1m limit '+str(limit)
         result = self.query(query)
         if result and len(result[self.meas]) != 0:
-            print(f"in read data")
+            # print(f"in read data")
             self.data = result[self.meas]
-            print(f"type of data: {type(self.data)}")
-            try:
-                print(f"head of data: {self.data.head()}")
-            except Exception as e:
-                print(f"[ERROR] {e}")
-                print("not pandas dataframe ", print(type(self.data)))
+            # print(f"type of data: {type(self.data)}")
+            # try:
+            #     print(f"head of data: {self.data.head()}")
+            # except Exception as e:
+            #     print(f"[ERROR] {e}")
+            #     print("not pandas dataframe ", print(type(self.data)))
 
     def write_anomaly(self, df, meas='AD'):
         """Write data method for a given measurement

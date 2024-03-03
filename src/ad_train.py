@@ -50,11 +50,12 @@ class ModelTraining(object):
         self.read_train()
         self.read_test()
 
+    # some changes here: reduced sleep time from 120 to 60 and number of samples from 1000 to 700
     def read_train(self):
         self.db.read_data(train=True)
-        while self.db.data is None or len(self.db.data.dropna()) < 1000:
-            logger.warning("Check if InfluxDB instance is up / Not sufficient data for Training")
-            time.sleep(120)
+        while self.db.data is None or len(self.db.data.dropna()) < 700:
+            logger.warning(f"Check if InfluxDB instance is up / Not sufficient data for Training #samples {len(self.db.data.dropna())}")
+            time.sleep(60)
             self.db.read_data(train=True)
         self.train_data = self.db.data
         logger.debug("Training on {} Samples".format(self.train_data.shape[0]))
