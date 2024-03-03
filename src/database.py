@@ -81,6 +81,7 @@ class DATABASE(object):
         ----------
         meas: str (default='ueMeasReport')
         limit:int (defualt=False)
+        select * from UEReports where time<now()-5m and time>now()-75m
         """
         self.data = None
         query = 'select * from ' + self.meas

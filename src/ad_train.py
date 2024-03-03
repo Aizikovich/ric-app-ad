@@ -54,9 +54,12 @@ class ModelTraining(object):
     def read_train(self):
         self.db.read_data(train=True)
         while self.db.data is None or len(self.db.data.dropna()) < 700:
-            logger.warning(f"Check if InfluxDB instance is up / Not sufficient data for Training #samples {len(self.db.data.dropna())}")
+            logger.warning(f"Check if InfluxDB instance is up / Not sufficient data for Training")
             time.sleep(60)
             self.db.read_data(train=True)
+            if self.db.data is not None:
+                logger.debug(f"Number of samples with dropna(): {len(self.db.data.dropna())} | {self.db.data.dropna().shape} ")
+                logger.debug(f"Number of samples without dropna(): {len(self.db.data)} | {self.db.data.shape} ")
         self.train_data = self.db.data
         logger.debug("Training on {} Samples".format(self.train_data.shape[0]))
 
