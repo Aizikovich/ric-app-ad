@@ -79,6 +79,7 @@ class modelling(object):
         self.transformation()
         pred = self.model.predict(self.data)
         pred = [1 if p == -1 else 0 for p in pred]
+        print(f"    Predicted: {pred}")
         return pred
 
 
