@@ -88,8 +88,8 @@ def predict(self):
         else:
             logger.warning("Parameters does not match with of training data")
     else:
-        logger.warning("No data in last 1 second")
-        time.sleep(1)
+        logger.warning("No data in last 3 second")
+        time.sleep(3)
     if (val is not None) and (len(val) > 2):
         msg_to_ts(self, val)
 
