@@ -73,7 +73,7 @@ class modelling(object):
             predict label on a given sample
 
         """
-        print(f"3)  Predicting on {df.shape[0]} samples in ad_model.predict()")
+        print(f"    int ad_model.py Predicting on {df.shape[0]} samples in ad_model.predict()")
         print(f"    num field: {self.num}")
         self.data = df.loc[:, self.num]
         self.transformation()

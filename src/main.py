@@ -113,8 +113,12 @@ def predict_anomaly(self, df):
     val = None
     print(f"2)  Predicted: {df['Anomaly'].values}\nin loop:\nbefore if 1 in df.Anomaly.unique()")
     if 1 in df.Anomaly.unique():
-
+        print(f"==================")
+        print(f"{df.loc[df['Anomaly'] == 1].copy()}")
+        print(f"===NOW CP.CAUSE===")
         df.loc[:, ['Anomaly', 'Degradation']] = cp.cause(df, db, threshold)
+        print(f"{df.loc[df['Anomaly'] == 1].copy()}")
+        print(f"==================")
         df_a = df.loc[df['Anomaly'] == 1].copy()
         print(f"Anomalous UE: {df_a.head()}")
         if len(df_a) > 0:
