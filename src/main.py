@@ -107,18 +107,23 @@ def predict_anomaly(self, df):
     ......
     val: anomalus sample info(UEID, DUID, TimeStamp, Degradation type)
     """
+    print(f"1)  Predicting on {df.shape[0]} samples in predict_anomaly()")
     df['Anomaly'] = md.predict(df)
     df.loc[:, 'Degradation'] = ''
     val = None
-
+    print(f"2)  Predicted: {df['Anomaly'].values}\nin loop:\nbefore if 1 in df.Anomaly.unique()")
     if 1 in df.Anomaly.unique():
+
         df.loc[:, ['Anomaly', 'Degradation']] = cp.cause(df, db, threshold)
         df_a = df.loc[df['Anomaly'] == 1].copy()
+        print(f"Anomalous UE: {df_a.head()}")
         if len(df_a) > 0:
             df_a['time'] = df_a.index
             cols = [db.ue, 'time', 'Degradation']
             # rmr send 30003(TS_ANOMALY_UPDATE), should trigger registered callback
             result = json.loads(df_a.loc[:, cols].to_json(orient='records'))
+            print(f"results: {result}")
+            print(f"results: {json.dumps(result)}")
             val = json.dumps(result).encode()
             logger.info("Anomalous UE: {}".format(val))
 
