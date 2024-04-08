@@ -104,7 +104,9 @@ class CAUSE(object):
             if sample.iloc[i]['Anomaly'] == 1:
                 query = """select * from {} where "{}" = \'{}\' and time<now() and time>now()-20s""".format(db.meas, db.ue, sample.iloc[i][db.ue])
                 normal = db.query(query)
+                print(f"\n\n in ad_model.py CAUSE.cause() normal: {normal}\n\n")
                 if normal:
+                    print(f"normal in if: {normal}")
                     normal = normal[db.meas][[db.thpt, db.rsrp, db.rsrq]]
                     deg = self.find(sample.loc[i, :], normal.max(), db, threshold)
                     if deg:
