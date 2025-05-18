@@ -214,4 +214,5 @@ def start(thread=False):
     # Initiates xapp api and runs the entry() using xapp.run()
     xapp = Xapp(entrypoint=entry, rmr_port=4560, use_fake_sdl=False)
     logger.debug("AD xApp starting")
+    print("AD xApp starting this is what i addded")
     xapp.run()
