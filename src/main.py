@@ -39,6 +39,7 @@ def entry(self):
     """
 
     connectdb()
+    logger.info("Connected to InfluxDB successfully")
     train_model()
     load_model()
     schedule.every(0.5).seconds.do(predict, self)

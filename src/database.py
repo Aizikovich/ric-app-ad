@@ -67,6 +67,7 @@ class DATABASE(object):
         try:
             self.client = DataFrameClient(self.host, port=self.port, username=self.user, password=self.password, path=self.path, ssl=self.ssl, database=self.dbname, verify_ssl=self.ssl)
             version = self.client.request('ping', expected_response_code=204).headers['X-Influxdb-Version']
+            logger.info("InfluxDB host: {}, port: {}, user: {}, password: {}".format(self.host, self.port, self.user, self.password))
             logger.info("Conected to Influx Database, InfluxDB version : {}".format(version))
             return True
 
@@ -93,6 +94,7 @@ class DATABASE(object):
             query += ' where time>now()-5m'
         elif limit:
             query += ' where time>now()-1m limit '+str(limit)
+        
         result = self.query(query)
         if result and len(result[self.meas]) != 0:
             # print(f"in read data")
