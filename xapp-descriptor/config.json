@@ -5,10 +5,11 @@
             {
                 "name": "ad",
                 "image": {
-                    "registry": "nexus3.o-ran-sc.org:10002",
-                    "name": "o-ran-sc/ric-app-ad",
-                    "tag": "1.0.0"
+                    "registry": "127.0.0.1:5000",
+                    "name": "ric-app-ad",
+                    "tag": "1.0"
                 }
+                
             }
         ],
         "messaging": {
