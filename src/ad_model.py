@@ -73,13 +73,13 @@ class modelling(object):
             predict label on a given sample
 
         """
-        print(f"    int ad_model.py Predicting on {df.shape[0]} samples in ad_model.predict()")
-        print(f"    num field: {self.num}")
+        # print(f"    int ad_model.py Predicting on {df.shape[0]} samples in ad_model.predict()")
+        # print(f"    num field: {self.num}")
         self.data = df.loc[:, self.num]
         self.transformation()
         pred = self.model.predict(self.data)
         pred = [1 if p == -1 else 0 for p in pred]
-        print(f"    Predicted: {pred}")
+        # print(f"    Predicted: {pred}")
         return pred
 
 
@@ -104,9 +104,9 @@ class CAUSE(object):
             if sample.iloc[i]['Anomaly'] == 1:
                 query = """select * from {} where "{}" = \'{}\' and time<now() and time>now()-20s""".format(db.meas, db.ue, sample.iloc[i][db.ue])
                 normal = db.query(query)
-                print(f"\n\n in ad_model.py CAUSE.cause() normal: {normal}\n\n")
+                # print(f"\n\n in ad_model.py CAUSE.cause() normal: {normal}\n\n")
                 if normal:
-                    print(f"normal in if: {normal}")
+                    # print(f"normal in if: {normal}")
                     normal = normal[db.meas][[db.thpt, db.rsrp, db.rsrq]]
                     deg = self.find(sample.loc[i, :], normal.max(), db, threshold)
                     if deg:

@@ -115,10 +115,10 @@ class DATABASE(object):
         """
         try:
             self.client.write_points(df, meas)
-            print(f"In database.py write_anomaly function. write {len(df)} points to {meas} measurement")
+            # print(f"In database.py write_anomaly function. write {len(df)} points to {meas} measurement")
         except (RequestException, InfluxDBClientError, InfluxDBServerError) as e:
             logger.error('Failed to send metrics to influxdb')
-            print(e)
+            # print(e)
 
     def query(self, query):
         try:
